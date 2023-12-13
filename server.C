@@ -18,9 +18,20 @@
 
 #include "SIMPLESOCKET.H"
 
+class myServer: public TCPserver{
+public:
+    myServer(int port, int size): TCPserver(port, size){};
+
+    string myResponse(string input);
+
+};
+
 
 int main(){
 	srand(time(nullptr));
-	TCPserver srv(2022,25);
+	myServer srv(2022,25);
 	srv.run();
 }
+string myServer :: myResponse (string input){
+    return string ("unknow");
+};
