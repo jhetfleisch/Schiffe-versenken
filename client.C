@@ -1,8 +1,8 @@
 /*
  * client.C
  *
- *  Created on: 11.09.2019
- *      Author: aml
+ *  Created on: 20.12.2023
+ *      Author: Lau Niko, Hetfleisch Jessica
  */
 
 #include <string>
@@ -13,9 +13,16 @@
 
 using namespace std;
 
+class myClient: public TCPclient{
+public:
+    myClient(): TCPclient(){};
+
+    string response(string incomingMsg);
+};
+
 int main() {
 	srand(time(NULL));
-	TCPclient c;
+	myClient c;
 	string host = "localhost";
 	string msg;
 
@@ -39,5 +46,14 @@ int main() {
 
 	}
 }
+
+
+string myClient :: response (string incomingMsg){
+    return string ("unknow");
+};
+
+
+
+
 
 
