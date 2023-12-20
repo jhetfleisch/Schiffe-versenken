@@ -17,10 +17,23 @@
 #include <netinet/in.h> //contains constants and structures needed for internet domain addresses
 #include <iostream>
 #include "SIMPLESOCKET.H"
+#include "TASK3.H"
+#include <sstream>
 
 class myServer: public TCPserver{
+protected:
+
+    TASK3::World *w;
+
+
+
+
 public:
-    myServer(int port, int size): TCPserver(port, size){};
+    myServer(int port, int size): TCPserver(port, size){
+
+    w=new TASK3::World();
+
+    };
 
     string myResponse(string input);
 
@@ -44,12 +57,27 @@ string myServer :: myResponse (string input){
         if (y<1)return string ("Error, yout of range");
         if (y>10)return string ("Error, yout of range");
 
-        return string("OKAY");
+        TASK3::ShootResult r;
+        r= w->shoot(x,y);
+
+        std::stringstream scout;
+
+        scout << "RESULT["<<r<<"]";
+        return scout.str();
+
+
+        //return string("OKAY");
     }
 
     if(input.compare(0,7,"NEWGAME")==0){
         return string ("OKAY");
+
+        delete w;
+        w= new TASK3::World();
+        return string("OKAY");
+
     }
+
 
     return string ("ERROR. Unknow command");
 };
