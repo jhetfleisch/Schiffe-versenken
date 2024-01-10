@@ -8,49 +8,70 @@
 #include <string>
 #include <iostream>
 #include <unistd.h> //contains various constants
+#include <sstream>
+#include <cstdio>
 
 #include "SIMPLESOCKET.H"
 
 using namespace std;
 
-class myClient: public TCPclient{
-public:
-    myClient(): TCPclient(){};
 
-    string response(string incomingMsg);
-};
+
+int zfl (TCPclient *c ) {                                // Strategie: Feld wird nur mit zufälligen Parametern beschossen
+
+    string msg;
+    stringstream s;
+    int r;
+    int z1 = 0;                                         // Zähler für die Anzahl der Durchläufe
+
+    s << "NEUEWELT"<<  endl;                            // Eine neue Welt wird angefordert
+    c->sendData(s.str());
+    msg = c->receive(32);
+    //cout << msg << endl;
+
+    do{
+
+        int x = rand() %10 +1;
+        int y = rand() %10 +1;
+
+
+        stringstream s;
+
+        s << "SHOOT[" << x << "," << y << "]";
+        msg = s.str ();
+        c->sendData(msg.c_str());
+        z1++;                                          // Anzahl der der Durchläufe wird hier um 1 hochgezählt
+        msg = c->receive(32);                          // empfangener String vom Server, überschreibt den String msg
+        /*cout << "got response" << msg << endl;*/
+        sscanf(msg.c_str(), "RESULT[%i]", &r);                 // aus dem String des Servers wird die Variable r ausgelesn und in eine Integer Variable umgewandelt
+
+    }while (r != 4);
+
+    cout << z1 << endl;
+    /*cout << "Alle Schiffe wurden versenkt" << endl;*/
+    return (0);
+
+
+
+
+
+}
 
 int main() {
 	srand(time(NULL));
-	myClient c;
+	TCPclient c;
 	string host = "localhost";
 	string msg;
 
 	//connect to host
 	c.conn(host , 2022);
 
-	int i=0;
-	bool goOn=1;
-	while(goOn){ // send and receive data
-		if((rand() % 20) < i++){
-			msg = string("BYEBYE");
-			goOn = 0;
-		}else{
-			msg = string("client wants this");
-		}
-		cout << "client sends:" << msg << endl;
-		c.sendData(msg);
-		msg = c.receive(32);
-		cout << "got response:" << msg << endl;
-		sleep(1);
-
-	}
+    for (int x=0; x<101; x++){
+    zfl (&c);
+    }
+    return 0;
 }
 
-
-string myClient :: response (string incomingMsg){
-    return string ("unknow");
-};
 
 
 

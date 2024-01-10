@@ -52,10 +52,10 @@ string myServer :: myResponse (string input){
         //std::cout << "shoot commando received./n";
         sscanf(input.c_str(),"SHOOT[%i,%i]",&x,&y);
         //std::cout << "x:" <<"y:" <<y <<std::endl;
-        if (x<1)return string ("Error, xout of range");
-        if (x>10)return string ("Error, xout of range");
-        if (y<1)return string ("Error, yout of range");
-        if (y>10)return string ("Error, yout of range");
+        if (x<1)return string ("Error, x out of range");
+        if (x>10)return string ("Error, x out of range");
+        if (y<1)return string ("Error, y out of range");
+        if (y>10)return string ("Error, y out of range");
 
         TASK3::ShootResult r;
         r= w->shoot(x,y);
@@ -69,12 +69,11 @@ string myServer :: myResponse (string input){
         //return string("OKAY");
     }
 
-    if(input.compare(0,7,"NEWGAME")==0){
-        return string ("OKAY");
+    if(input.compare(0,8,"NEUEWELT")==0){
 
         delete w;
         w= new TASK3::World();
-        return string("OKAY");
+        return string("OK");
 
     }
 
