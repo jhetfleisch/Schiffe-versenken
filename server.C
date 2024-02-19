@@ -29,7 +29,7 @@ protected:
 
 
 public:
-    myServer(int port, int size): TCPserver(port, size){
+    myServer(int port, int size): TCPserver(port, size){        // Eigene Kindklasse vom TCPserver erstellt
 
     w=new TASK3::World();
 
@@ -52,7 +52,7 @@ string myServer :: myResponse (string input){
         //std::cout << "shoot commando received./n";
         sscanf(input.c_str(),"SHOOT[%i,%i]",&x,&y);
         //std::cout << "x:" <<"y:" <<y <<std::endl;
-        if (x<1)return string ("Error, x out of range");
+        if (x<1)return string ("Error, x out of range");            // Ein Fehler soll geworfen werden, wenn die x oder y Werte ausserhalb des Bereichs sind
         if (x>10)return string ("Error, x out of range");
         if (y<1)return string ("Error, y out of range");
         if (y>10)return string ("Error, y out of range");
@@ -62,14 +62,14 @@ string myServer :: myResponse (string input){
 
         std::stringstream scout;
 
-        scout << "RESULT["<<r<<"]";
+        scout << "RESULT["<<r<<"]";                // Ausgabe des Schuss Ergebnisses
         return scout.str();
 
 
         //return string("OKAY");
     }
 
-    if(input.compare(0,8,"NEUEWELT")==0){
+    if(input.compare(0,8,"NEUEWELT")==0){                   // Erstellen einer neuen Welt, wenn Client eine Anfrage stellt
 
         delete w;
         w= new TASK3::World();
@@ -78,5 +78,5 @@ string myServer :: myResponse (string input){
     }
 
 
-    return string ("ERROR. Unknow command");
+    return string ("ERROR. Unknow command");            // Kommando wurde nicht erkannt
 };

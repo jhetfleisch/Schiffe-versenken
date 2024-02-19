@@ -31,7 +31,7 @@ int zfl (TCPclient *c ) {                                // Strategie: Feld wird
 
     do{
 
-        int x = rand() %10 +1;
+        int x = rand() %10 +1;                          // zufällige Zahlen zwischen 1 und 10
         int y = rand() %10 +1;
 
 
@@ -52,59 +52,6 @@ int zfl (TCPclient *c ) {                                // Strategie: Feld wird
     return (0);
 
 }
-
-/*int jdzwfld   (TCPclient *c){       // Strategie: Jedes zweite Feld soll beschossen werden. Bei einem Treffer werden die Felder davor und danach beschossen
-
-        int x = 1;
-        int y = 1;
-        int z2 = 0;
-        int r;
-        stringstream s;
-        string msg;
-
-        s << "NEUEWELT"<<  endl;                            // Eine neue Welt wird angefordert
-        c->sendData(s.str());
-        msg = c->receive(32);
-
-
-        for (x = 1; x < 10; x+2){
-
-            stringstream s;
-
-            s << "SHOOT[" << x << "," << y << "]";
-            msg = s.str ();
-            c->sendData(msg.c_str());
-            z2++;                                          // Anzahl der der Durchläufe wird hier um 1 hochgezählt
-            msg = c->receive(32);
-            sscanf(msg.c_str(), "RESULT[%i]", &r);
-
-            x = (x+2) %10+1;
-
-
-            if (x=10){
-                y++;
-            }
-
-            if (r = 1){
-                s << "SHOOT[" << x-1 << "," << y << "]";
-                msg = s.str ();
-                c->sendData(msg.c_str());
-                z2++;                                          // Anzahl der der Durchläufe wird hier um 1 hochgezählt
-                msg = c->receive(32);
-                s << "SHOOT[" << x+1 << "," << y << "]";
-                msg = s.str ();
-                c->sendData(msg.c_str());
-                z2++;                                          // Anzahl der der Durchläufe wird hier um 1 hochgezählt
-                msg = c->receive(32);
-            }
-
-            if (r = 4 ){
-                cout << z2 << endl;
-                return 0;
-            }
-        }
-
-}*/
 
 int jdfld (TCPclient *c ){                              // Strategie: Alle Felder werden nacheinander beschossen.
 
@@ -153,12 +100,17 @@ int main() {
 
 	//connect to host
 	c.conn(host , 2022);
-    jdfld (&c);
-    //zfl (&c);
-	//jdzwfld(&c);
-    /*for (int x=0; x<101; x++){
+    jdfld (&c);                                 // Strategie jdfld einmalig durchlaufen lassen
+    //zfl (&c);                                 // Strategie zfl einmalig durchlaufen lassen
+    /*for (int x=0; x<101; x++){                // Schleife um die Strategie zfl beliebig oft durchzuführen
     zfl (&c);
     }*/
+
+    /*for (int x=0; x<101; x++){                // Schleife um die Strategie jdfld beliebig oft durchzuführen
+    jdfld (&c);
+    }*/
+
+
     return 0;
 }
 
